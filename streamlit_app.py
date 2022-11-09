@@ -43,6 +43,13 @@ dataset_test = dataset[-200:]
 from sklearn.preprocessing import MinMaxScaler
 sc = MinMaxScaler(feature_range=(0,1))
 
+training_set = dataset_train.iloc[:, 1:2].values
+
+"""Import MinMaxScaler from scikit-learn to scale our dataset into numbers between 0 and 1 """
+
+training_set_scaled = sc.fit_transform(training_set)
+
+
 if os.path.exists(model_path) and not retrain:
     print(f"load model from {model_path}")
     model = keras.models.load_model(model_path)
