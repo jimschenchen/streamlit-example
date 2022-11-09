@@ -123,6 +123,9 @@ with st.echo(code_location='below'):
                   "predicted_stock_price": predicted_stock_price.flatten()})
     st.line_chart(df)
 
+    df["diff"] = df["real_stock_price"] - df["predicted_stock_price"]
+    st.dataframe(df)
+
     # for curr_point_num in range(total_points):
     #     curr_turn, i = divmod(curr_point_num, points_per_turn)
     #     angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
