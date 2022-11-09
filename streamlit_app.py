@@ -1,3 +1,4 @@
+from sklearn.preprocessing import MinMaxScaler
 from collections import namedtuple
 import altair as alt
 import math
@@ -40,8 +41,7 @@ dataset = pd.read_csv(url)
 dataset_train = dataset[:-200]
 dataset_test = dataset[-200:]
 
-from sklearn.preprocessing import MinMaxScaler
-sc = MinMaxScaler(feature_range=(0,1))
+sc = MinMaxScaler(feature_range=(0, 1))
 
 training_set = dataset_train.iloc[:, 1:2].values
 
@@ -53,7 +53,6 @@ training_set_scaled = sc.fit_transform(training_set)
 if os.path.exists(model_path) and not retrain:
     print(f"load model from {model_path}")
     model = keras.models.load_model(model_path)
-
 
 
 """Import the test set for the model to make predictions on """
@@ -68,9 +67,9 @@ real_stock_price.size
 
 """
 
-dataset_total = pd.concat((dataset_train[focus_column], dataset_test[focus_column]), axis = 0)
+dataset_total = pd.concat((dataset_train[focus_column], dataset_test[focus_column]), axis=0)
 inputs = dataset_total[len(dataset_total) - len(dataset_test) - 60:].values
-inputs = inputs.reshape(-1,1)
+inputs = inputs.reshape(-1, 1)
 inputs = sc.transform(inputs)
 
 X_test = []
@@ -83,8 +82,8 @@ predicted_stock_price = sc.inverse_transform(predicted_stock_price)
 
 """Plot our predicted stock prices and the actual stock price"""
 
-plt.plot(real_stock_price, color = 'black', label = 'TATA Stock Price')
-plt.plot(predicted_stock_price, color = 'green', label = 'Predicted TATA Stock Price')
+plt.plot(real_stock_price, color='black', label='TATA Stock Price')
+plt.plot(predicted_stock_price, color='green', label='Predicted TATA Stock Price')
 plt.title('TATA Stock Price Prediction')
 plt.xlabel('Time')
 plt.ylabel('TATA Stock Price')
@@ -121,10 +120,9 @@ with st.echo(code_location='below'):
 
     points_per_turn = total_points / num_turns
 
-    st.line_chart(real_stock_price)
-    st.line_chart(predicted_stock_price)
-    
-    plt.show()
+    st.line_chart(pd.DataFrame({"real_stock_price": real_stock_price,
+                  "predicted_stock_price": predicted_stock_price}))
+    st.line_chart()
 
     for curr_point_num in range(total_points):
         curr_turn, i = divmod(curr_point_num, points_per_turn)
@@ -135,5 +133,5 @@ with st.echo(code_location='below'):
         data.append(Point(x, y))
 
     st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
-        .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))
+                    .mark_circle(color='#0068c9', opacity=0.5)
+                    .encode(x='x:Q', y='y:Q'))
