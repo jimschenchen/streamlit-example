@@ -89,7 +89,6 @@ plt.title('TATA Stock Price Prediction')
 plt.xlabel('Time')
 plt.ylabel('TATA Stock Price')
 plt.legend()
-plt.show()
 
 """Next day"""
 
@@ -124,6 +123,8 @@ with st.echo(code_location='below'):
 
     st.line_chart(real_stock_price)
     st.line_chart(predicted_stock_price)
+    
+    plt.show()
 
     for curr_point_num in range(total_points):
         curr_turn, i = divmod(curr_point_num, points_per_turn)
