@@ -4,3 +4,4 @@ streamlit
 keras
 matplotlib
 scikit-learn
+tensorflow
